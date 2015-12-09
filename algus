@@ -1,0 +1,58 @@
+#impordin moodulid
+import pygame
+import sys
+
+#graafiline asjandus
+pygame.init()
+font = pygame.font.SysFont(None, 30)
+ekraanilaius, ekraanipikkus = 640, 480
+must = (0, 0, 0)
+ekraan = pygame.display.set_mode([ekraanilaius, ekraanipikkus])
+ekraan.fill(must)
+valge = (255, 255, 255)
+
+#pildid
+start = pygame.image.load("start.png")
+start_raam = start.get_rect()
+
+#arvulised muutujad
+sõna_x, sõna_y = ekraanilaius/2, 10
+skoor = 0
+kiirus = 5
+
+#sõnade laadimine
+sõnad = ["aasta", "vahetus", "kool", "tärklis"]
+
+menuu = True
+mäng = False
+
+def teeme_menuu():
+        if menuu:
+                start_raam.center = 320, 100
+                ekraan.blit(start, start_raam)
+                pygame.display.flip()
+
+def sõnad_ekraanil(sõna, värv):
+        global sõna_y
+        
+        label = font.render(sõna, 1, värv)
+        ekraan.blit(label, [sõna_x, sõna_y])
+        pygame.display.flip()
+
+while menuu == True:
+        teeme_menuu()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        menuu = False
+                elif event.type == pygame.MOUSEMOTION:
+                        hx, hy = event.pos
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if 245 < hx < 395 and 27 < hy < 173:
+                                menuu = False
+                                mäng = True
+                                
+while mäng == True:
+        ekraan.fill(valge)
+        sõnad_ekraanil(sõnad[0], must)
+
+
